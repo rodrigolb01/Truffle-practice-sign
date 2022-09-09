@@ -1,18 +1,29 @@
 {
-  "dependencies": {
-    "dotenv": "^16.0.2"
-  },
   "name": "backend",
   "version": "1.0.0",
   "main": "truffle-config.js",
   "directories": {
     "test": "test"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^4.3.6",
+    "chai-as-promised": "^7.1.1",
+    "chai-bignumber": "^3.0.0",
+    "dotenv": "^16.0.2",
+    "lite-server": "^2.6.1",
+    "nodemon": "^2.0.19",
+    "solidity-coverage": "^0.8.1",
+    "truffle": "^5.5.28",
+    "truffle-flattener": "^1.6.0",
+    "truffle-hdwallet-provider": "^1.0.17",
+    "web3": "^1.7.5"
+  },
   "scripts": {
     "test": "truffle test",
+    "dev": "lite-server",
     "compile": "truffle compile",
-    "migrate": "truffle migrate"
+    "migrate": "truffle migrate",
+    "deploy": "truffle deploy"
   },
   "keywords": [],
   "author": "",
