@@ -45,8 +45,49 @@
               </form>
               <p id="msg"></p>
               <p id="signature"></p>
-              <button id="verify" onClick="App.verify()" class="btn btn-primary" style="display: none;">Verify Signature</button>
+              <p>Enter the message hash below to verify</p>
+              <div class="form-group">
+                <input id="verifyMessage" class="form-control" type="text">
+              </div>
+              <p>Enter signature below to verify</p>
+              <div class="form-group">
+                <input id="verifySignature" class="form-control" type="text">
+              </div>
+              <button id="verify" onClick="App.verify()" class="btn btn-primary">Verify Signature</button>
               <p id="address"></p>
+              <!-- <form class="" >
+                <h2>Preencher dados do estudante</h2>
+                <p>Nome do estudante</p>
+                <div>
+                  <input id="name" type="text">
+                </div>
+                <p>Instituicao Federal</p>
+                <div>
+                  <input id="if" type="text">
+                </div>
+                <p>Nome do curso</p>
+                <div>
+                  <input id="curso" type="text">
+                </div>
+                <p>Data de Ingresso</p>
+                <div>
+                  <input id="data_de_ingresso" type="text">
+                </div>
+                <p>Data de termino</p>
+                <div>
+                  <input id="data_de_termino" type="text">
+                </div>
+                <p>Matricula</p>
+                <div>
+                  <input id="matricula" type="text">
+                </div>
+                <p>CPF</p>
+                <div>
+                  <input id="cpf" type="text">
+                </div>
+                <button id="send" onclick="App.test();">Enviar</button>
+                <p id="hashDados">h</p>
+              </form> -->
             </div>
           </div>
         </main>

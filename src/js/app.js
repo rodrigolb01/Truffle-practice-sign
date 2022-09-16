@@ -4,11 +4,8 @@ App = {
     account: '0x0',
     loading: false,
     contractInstance: false,
-    msg: '0x0',
-    signature: '0x0',
 
     init: () => {
-        console.log('test!');
         return App.initWeb3();
     },
 
@@ -74,6 +71,7 @@ App = {
         console.log(accounts);
         App.account = accounts[0];
         console.log("Your account: ", App.account);
+        $('account').html("App.account");
 
         App.contracts.VerifySignature.deployed().then((contract) => {
             App.contractInstance = contract;
@@ -81,7 +79,7 @@ App = {
             console.log("Contract Address:", App.contractInstance.address);
             return true;
         }).then((val) => {
-            $('account').html(App.account);
+            $('#account').html(App.account);
             loader.hide();
             content.show();
         });
@@ -93,15 +91,12 @@ App = {
     
         const message = web3.sha3( $('#message').val() )
         console.log('message', message)
-    
+        
         web3.eth.sign(App.account, message, function (err, result) {
           console.log(err, result)
           $('form').trigger('reset')
-          App.msg = message
           $('#msg').html('message:' + ' ' + message)
-          App.signature = result
           $('#signature').html('signature:' + ' ' + result)
-          $('#verify').show()
           $("#content").show();
           $("#loader").hide();
           window.alert('Message signed!')
@@ -112,15 +107,33 @@ App = {
         $("#content").hide();
         $("#loader").show();
     
-        App.contractInstance.recoverSigner(App.msg, App.signature).then(function(result) {
-          $('#address').html('This account signed the message:' + ' ' + result)
+        const signature = $('#verifySignature').val()
+        const message = $('#verifyMessage').val()
+        const account = App.account; 
+
+        try {
+            if(signature.length != 132)
+                throw 'invalid signature length!'
+        } catch (error) {
+            window.alert('invalid signature length!')
+            $("#content").show();
+            $("#loader").hide();
+            $("#address").html('Invalid signature')
+        }
+       
+
+        App.contractInstance.recoverSigner(message, signature).then(function(result) {
+            console.log('recovered the signer: ' + result);
+            console.log('your account is: ' + account);
+            $('#address').html(result == account? 'Valid signature' : 'Invalid signature');
         }).catch((err) => {
           console.error(err);
-          window.alert("There was an error recovering signature.")
+          window.alert("An error occured while recovering signature.")
         });
     
         $("#content").show();
         $("#loader").hide();
+        $("#address").html('Invalid signature')
       }
 };
 
@@ -129,4 +142,195 @@ $(() => {
       App.init();
     });
   });
+
+
+  test: () => {
+    const name = $('#name').val();
+    const IF = $('if').val();
+    const curso = $('curso').val();
+    const dataIngresso = $('data_de_ingresso').val();
+    const dataTermino = $('data_de_termino').val();
+    const matricula = $('matricula').val();
+    const cpf = $('cpf').val();
+    
+    const result = web3.sha3(
+        {
+            "Diploma": {
+                "infDiploma" : {
+                    "DadosDiploma": {
+                        "Diplomado": {
+                            "ID" : "",
+                            "Nome" : "",
+                            "Sexo" : "",
+                            "Nacionalidade" : "",
+                            "Naturalidade" : {
+                                "CodigoMunicipio" : "",
+                                "NomeMunicipio" : "",
+                                "UF" : ""
+                            },
+                            "CPF" : "",
+                            "RG" : {
+                                "Numero" : "",
+                                "UF" : ""
+                            },
+                            "DataDeNascimento" : ""
+                        },
+                        "DadosDoCurso": {
+                            "NomeDoCurso" : "",
+                            "CodigoCursoEMEC": "",
+                            "NomeHabilitacao" : "",
+                            "Modalidade" : "",
+                            "TituloConferido" : "",
+                            "GrauConferido" : "",
+                            "EnderecoCurso" : {
+                                "Logradouro" : "",
+                                "Complemento" : "",
+                                "Bairro" : "",
+                                "CodigoMunicipio" : "",
+                                "UF" : "",
+                                "CEP" : ""
+                            },
+                            "Autorizacao" : {
+                                "Tipo" : "",
+                                "Numero" : "",
+                                "Data" : ""
+                            },
+                            "Reconhecimento" : {
+                                "Tipo" : "",
+                                "Numero" : "",
+                                "Data" : "",
+                                "DataPublicacao" : ""
+                            },
+
+                        },
+                        "IesEmissora": {
+                            "Nome" : "",
+                            "CodigoMEC" : "",
+                            "CNPJ" : "",
+                            "Endereco" : {
+                                "Logradouro" : "",
+                                "Numero" : "",
+                                "Bairro" : "",
+                                "CodigoMunicipio" : "",
+                                "UF" : "",
+                                "CEP" : ""
+                            },
+                            "Credenciamento" : {
+                                "Tipo" : "",
+                                "Numero" : "",
+                                "Data" : "",
+                                "DataPublicacao" : "",
+                                "SecaoPublicacao" : "",
+                                "PaginaPublicacao" : "",
+                            },
+                            "Recredenciamento" : {
+                                "Tipo" : "",
+                                "Numero" : "",
+                                "Data" : "",
+                                "DataPublicacao" : "",
+                                "SecaoPublicacao " : "",
+                                "PaginaPublicacao " : "",
+                            },
+                            "Mantedora" : {
+                                "RazaoSocial" : "",
+                                "CNPJ" : "",
+                                "Endereco" : {
+                                    "Logradouro" : "",
+                                    "Numero" : "",
+                                    "Bairro" : "",
+                                    "CodigoMunicipal" : "",
+                                    "NomeMunicipio" : "",
+                                    "UF" : "",
+                                    "CEP" : ""
+                                }
+                            },
+                        },
+                        "Signature" : {
+                            "SignedInfo" : {
+                                "CanonicalizationMethod" : {
+                                    "_Algorithm" : "",
+                                    "__prefix" : ""
+                                },
+                                "SignatureMethod" : {
+                                    "_Algorithm" : "",
+                                    "__prefix" : ""
+                                },
+                                "Reference" : [],
+                                "__prefix" : ""
+                                },
+                            "SignatureValue" : {
+                                "_Id" : "",
+                                "__prefix" : "",
+                                "__text" : ""
+                            },
+                            "KeyInfo" : {
+                                "X509Data" : {
+                                    "X509SubjectName" : {
+                                        "__prefix" : "",
+                                        "__text" : ""
+                                    },
+                                    "X509Certificate" : {
+                                        "__prefix" : "",
+                                        "__text" : ""
+                                    },
+                                    "__prefix" : ""
+                                },
+                                "__prefix" : ""
+                            },
+                            "Object" : {
+                                "QualifyingProperties" : {
+                                    "SignedProperties" : {
+                                        "SignedSignatureProperties" : {
+
+                                        }
+                                    }
+                                },
+                                "_xmlns:ds" : "",
+                                "_xmlns:xades" : "",
+                                "_Id" : "",
+                                "__prefix" : ""
+                            }
+                        },
+                        "DadosRegistro" : {
+                            "IesRegistradora" : {
+                                "Nome" : "",
+                                "CodigoMEC": "",
+                                "CNPJ": ""
+                            },
+                            "LivroRegistro" : {
+                                "LivroRegistro" : "",
+                                "NumeroFolhaDoDiploma" : "",
+                                "NumeroSequenciaDoDiploma": "",
+                                "ProcessoDoDiploma": "",
+                                "DataColacaoDeGrau": "",
+                                "DataExpedicaoDiploma": "",
+                                "DataRegistroDiploma": "",
+                                "ResponsavelRegistro": {
+                                    "Nome" : "",
+                                    "CPF" : "",
+                                    "IDouNumeroMatricula" : ""
+                                }
+                            },
+                            "IdDocumentacaoAcademica" : "",
+                            "Seguranca" : {
+                                "CodigoValidacao" : ""
+                            },
+                            "Signature" : {
+
+                            },
+                            "_id" : "",
+                            "_versao" : ""
+                        }
+                    }
+                },
+                "Signature" : { },
+                "_xmlns": "",
+                "_xmlns:ns2" : "",
+            }
+        }
+    );
+    $("#content").show();
+    $("#loader").hide();
+    $("#hashDados").html('hash dos dados' + ' ' + result);
+}
   
